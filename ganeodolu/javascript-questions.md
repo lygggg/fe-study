@@ -86,3 +86,158 @@
 
 - IIFE는 즉시 함수 호출 표현식(Immediately Invoked Function Expressions)
 
+# 2 week
+
+## 6. null, undefined, undeclared의 차이점은 무엇인가요? 어떻게 이 상태들에 대한 확인을 할 것인가요?
+
+1. null
+    1. 사용자가 명시적으로 ‘없음’을 표현하기 위해 대입한 값
+    
+    ```jsx
+    var test3; //변수 선언. 
+    test3 = null; //선언한 변수 test3에 null값 할당. 
+    console.log(test3); //null 
+    console.log(typeof test3); //변수 test3의 타입은 object 객체
+    
+    ```
+    
+2. undefined
+    1. 변수는 선언되었지만, 값이 할당되지 않은 변수
+    
+    ```jsx
+    var test; 
+    console.log(test); //undefined 
+    console.log(typeof test); //undefined
+    
+    ```
+    
+3. undeclared
+    1. 접근 가능한 스코프에 변수 선언조차 되어있지 않은 상태
+    
+    ```jsx
+    console.log(test2); 
+    // 오류
+    /* Uncaught ReferenceError: test2 is not defined at <anonymous>:1:13 */
+    
+    ```
+
+## 7. 클로저는 무엇이며, 어떻게/왜 사용하나요?
+
+1. 외부함수 보다 내부함수가 더 오래 유지되는 경우 내부함수는 이미 생명 주기가 종료한 외부 함수의 변수를 참조할 수 있다. 이 때 내부함수를 클로저 라고 함
+2. 활용
+    1. 상위스코프에 대한 참조는 함수가 실행된 위치가 아니라 **함수가 정의된 위치**에 의해 결정(렉시컬 스코프)
+    2. 상태가 의도치 않게 변경되지 않도록 안전하게 은닉하고 특정 함수에게만 상태 변경을 허용하여 상태를 안전하게 변경하고 유지하기 위해 사용
+
+```jsx
+const x = 1;
+    
+    function outerFunc(){
+    	const x = 10;
+    	function innerFunc(){
+    		console.log(x);   // 10
+    	}
+    	innerFunc();
+    }
+    
+    outerFunc();
+```
+
+```jsx
+const x = 1;
+    
+    function outerFunc(){
+    	const x = 10;
+    	innerFunc();
+    }
+
+    function innerFunc(){
+    	console.log(x);   // 1
+    }
+    
+    outerFunc();
+```
+
+## 8. .forEach 루프와 .map() 루프 사이의 주요 차이점을 설명할 수 있나요? 왜 둘 중 하나를 선택할 것인가요?
+
+1. forEach와 map
+2. 공통점
+    1. 배열 메소드
+    2. 배열의 요소를 반복
+3. 차이점
+    1. forEach
+        1. 값을 반환하지 않음
+    2. map
+        1. 함수 호출한 결과로 새 배열을 작성하여 반환
+
+## 9. 익명 함수의 일반적인 사용 사례는 무엇인가요?
+
+1. 의미
+    1. 사용자가 함수를 만들 때 이름을 지정하지 않고 변수 혹은 그냥 호출만으로 선언할 수 있는 함수
+    2. 호이스팅 되지 않음
+    3. 활용
+        1. 익명함수는 IIFE로 사용되어 지역 범위 내에서 일부 코드를 캡슐화하므로 선언된 변수가 전역 범위로 누출되지 않음
+        
+        ```jsx
+        (function () {
+          // 코드
+        })();
+        ```
+        
+    
+    ```jsx
+    SayHello(); // "hello!" 가 정상적으로 출력됨.
+    
+    function SayHello(){
+      console.log("hello!");
+    }
+    
+    SayHello(); // "hello!" 가 정상적으로 출력됨.
+    
+    // 호이스팅 된 모습
+    //
+    // function SayHello(){      <- 함수 선언이 먼저 일어나고,
+    //   console.log("hello!");
+    // }
+    //
+    // SayHello(); <- 첫 번째 SayHello();
+    // SayHello(); <- 두 번재 SayHello();
+    ```
+    
+    ```jsx
+    //익명 함수
+    
+    sayHello(); // Uncaught ReferenceError: Cannot access 'sayHello' before initialization
+    
+    let sayHello = function() {
+      console.log("hello!");
+    }
+    
+    sayHello(); // 위에서 에러가 났으니 출력이 나오지 않음
+    
+    // 이 자바스크립트를 읽을 때(호이스팅 된 모습)
+    // 
+    // const sayHello;
+    //
+    // sayHello(); <- sayHello의 초기화가 진행되지 않았다.
+    // 
+    // sayHello = function(){
+    //   console.log("hello!");
+    // }
+    //
+    // sayHello(); <- 초기화는 진행된 후 불렸으니, 원래대로라면 출력 가능
+    ```
+
+## 10. 코드를 어떻게 구성하나요? (모듈 패턴, 고전적인 상속?)
+
+1. Flux
+    1. FLUX 패턴은 MVC의 **양방향 데이터 바인딩**의 단점을 해결하고자 페이스북에서 고안한 `단방향 데이터 바인딩` 방식의 디자인 패턴이다. 구조는 다음과 같다.
+    2. 양방향 데이터 바인딩 방식은 모델의 변화에 따라 바로바로 뷰가 변하기 때문에 시스템이 복잡해질 수록 예측 불가능한 상황들이 생기고 데이터들이 꼬여버릴 수 있다는 단점
+
+![https://taeny.dev/static/8ef687083384d183ff57c029daa5a6c4/9f82e/flux.png](https://taeny.dev/static/8ef687083384d183ff57c029daa5a6c4/9f82e/flux.png)
+
+- **Dispatcher** : Flux의 모든 데이터 흐름을 관리하는 허브 역할을 하는 부분
+- **Store** : 데이터(상태)를 저장하는 부분
+- **View** : Store의 변화를 감지하고 View를 업데이트해주는 부분. Controller View라고도 부른다.
+
+즉, “Action이 dispatch > dispatcher는 action에 맞게 store를 업데이트 > View는 store의 변화가 감지되면 view업데이트” 의 방식으로 진행된다. 대표적으로 React와 Redux가 flux패턴을 사용하며, Vuex라이브러리도 flux패턴에 영감을 받아 만들어졌다고 한다.
+
