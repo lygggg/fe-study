@@ -241,3 +241,83 @@ const x = 1;
 
 즉, “Action이 dispatch > dispatcher는 action에 맞게 store를 업데이트 > View는 store의 변화가 감지되면 view업데이트” 의 방식으로 진행된다. 대표적으로 React와 Redux가 flux패턴을 사용하며, Vuex라이브러리도 flux패턴에 영감을 받아 만들어졌다고 한다.
 
+## 11. 호스트 객체와 내장 객체의 차이점은 무엇인가요?
+
+![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c2dcf850-9799-47e1-854e-842264ebda19/Untitled.png)
+
+- 내장객체(Native objects or Built-in objects or Global Objects)
+    - ECMAScript 명세에 정의된 객체를 말하며 애플리케이션 전역의 공통 기능을 제공
+        - Object, String, Number, Function, Array, RegExp, Date, Math와 같은 객체 생성에 관계가 있는 함수 객체와 메소드로 구성
+        - 네이티브 객체를 **Global Objects**
+        라고 부르기도 하는데 이것은 전역 객체(Global Object)와 다른 의미로 사용되므로 혼동에 주의
+        - 전역 객체(Global Object)
+            - 모든 객체의 최상위 객체를 의미
+            - 일반적으로 Browser-side에서는 `window`
+            - Server-side(Node.js)에서는 `global`
+             객체를 의미
+- 호스트객체
+    - 브라우저 환경에서 제공하는 window, XmlHttpRequest, HTMLElement 등의 DOM 노드 객체와 같이 호스트 환경에 정의된 객체
+    - 브라우저에서 동작하는 환경의 호스트 객체
+        - 전역 객체인 window, BOM(Browser Object Model)과 DOM(Document Object Model) 및 XMLHttpRequest 객체 등을 제공
+
+## 12. function Person(){}, var person = Person(), var person = new Person()의 차이점은 무엇인가요?
+
+- **`function Person(){}`**
+    - 함수선언문
+- **`var person = Person()`**
+    - 
+- **`var person = new Person()`**
+    - 생성자 함수
+    - `Person.prototype`을 상속받은 `new` 연산자를 사용하여 `Person` 객체의 인스턴스를 생성
+
+## 13. .call과 .apply의 차이점은 무엇인가요?
+
+# **`.call`과 `.apply`의 차이점은 무엇인가요?**
+
+- Function 메소드
+- apply
+    - 호출할 함수의 인수를 배열로 묶어서 전달
+    - this로 사용할 객체를 전달하면서 함수를 호출
+    
+    ```jsx
+    const arr = [2,3,4];
+    Math.min.apply(null, arr) // 2
+    Math.min(a) // NaN
+    Math.min(...arr) // 2
+    ```
+    
+- call
+    - 호출할 함수의 인수를 쉼표로 구분한 리스트 형식으로 전달
+    - this로 사용할 객체를 전달하면서 함수를 호출
+    ```jsx
+    Math.min.apply(null, 2,3,4) // 2
+    ```
+    ```jsx
+    function getThisBinding(){
+    return this;
+    }
+
+    const thisArg = { a: 1};
+    console.log(getThisBinding.apply(thisArg, [1,2,3])); 
+
+    // {a:1}
+    console.log(getThisBinding.apply(thisArg, 1,2,3)); 
+    // {a:1}
+    ```
+## 14. Function.prototype.bind에 대해 설명하세요.
+
+- apply, call 메서드와 다르게 함수를 호출하지 않고, this로 사용할 객체만 전달
+
+```jsx
+function getThisBinding(){
+ return this;
+}
+
+const thisArg = { a: 1};
+console.log(getThisBinding.bind(thisArg)); // getThisBinding
+console.log(getThisBinding.bind(thisArg)()); // {a:1}
+```
+## 15. 언제 document.write()를 사용하나요?
+
+- `document.write()`는 `document.open()`에 의해 열린 문서 스트림에 텍스트 문자열을 씁니다. 페이지가 로드된 후에 `document.write()`가 실행되면 `document.open`을 호출하여 문서 전체를 지우고 (`<head>`와 `<body>`를 지웁니다!). 문자열로 주어진 매개 변수 값으로 대체합니다. 그러므로 일반적으로 위험하고 오용되기 쉽습니다.
+- `document.write()`가 코드분석이나 [JavaScript가 활성화된 경우에만 작동하는 스타일을 포함하고 싶을 때](https://www.quirksmode.org/blog/archives/2005/06/three_javascrip_1.html) 사용되는 경우를 설명하는 온라인 답변이 몇 가지 있습니다. 심지어 HTML5 보일러 플레이트에서 [스크립트를 병렬로 로드하고 실행 순서를 보존](https://github.com/paulirish/html5-boilerplate/wiki/Script-Loading-Techniques#documentwrite-script-tag)할 때도 사용됩니다! 그러나, 저는 그 이유가 시대에 뒤떨어진 것으로 생각하고 있으며, 현재는 `document.write()`를 사용하지 않고도 할 수 있습니다. 이것이 틀렸다면 고쳐주세요.
