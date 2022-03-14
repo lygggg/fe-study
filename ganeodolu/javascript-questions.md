@@ -321,3 +321,186 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
 
 - `document.write()`는 `document.open()`에 의해 열린 문서 스트림에 텍스트 문자열을 씁니다. 페이지가 로드된 후에 `document.write()`가 실행되면 `document.open`을 호출하여 문서 전체를 지우고 (`<head>`와 `<body>`를 지웁니다!). 문자열로 주어진 매개 변수 값으로 대체합니다. 그러므로 일반적으로 위험하고 오용되기 쉽습니다.
 - `document.write()`가 코드분석이나 [JavaScript가 활성화된 경우에만 작동하는 스타일을 포함하고 싶을 때](https://www.quirksmode.org/blog/archives/2005/06/three_javascrip_1.html) 사용되는 경우를 설명하는 온라인 답변이 몇 가지 있습니다. 심지어 HTML5 보일러 플레이트에서 [스크립트를 병렬로 로드하고 실행 순서를 보존](https://github.com/paulirish/html5-boilerplate/wiki/Script-Loading-Techniques#documentwrite-script-tag)할 때도 사용됩니다! 그러나, 저는 그 이유가 시대에 뒤떨어진 것으로 생각하고 있으며, 현재는 `document.write()`를 사용하지 않고도 할 수 있습니다. 이것이 틀렸다면 고쳐주세요.
+
+## 16. Ajax에 대해 가능한 한 자세히 설명하세요.
+
+- Ajax(asynchronous JavaScript and XML)
+    - 자바스크립트를 사용하여 브라우저가 서버에게 비동기 방식으로 데이터를 요청하고, 서버가 응답한 데이터를 수신하여 웹페이지를 동적으로 갱신하는 프로그래밍 방식
+    - 브라우저에서 제공하는 Web API인 XMLHttpRequest 객체를 기반으로 동작
+        - XMLHttpRequest
+            - HTTP 비동기 통신을 위한 메서드와 프로퍼티 제공
+        - JSON
+            
+            클라이언트와 서버간 HTTP 통신을 위한 텍스트 데이터 포맷
+            
+            키와 값으로 구성된 순수한 텍스트
+            
+            키는 반드시 큰따옴표 사용
+            
+            값 문자열은 반드시 큰따옴표 사용
+            
+            ![Ajax 생명 주기](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5479450c-f1cb-42f2-b785-64edb96f7814/Untitled.png)
+            
+            Ajax 생명 주기
+            
+- 전통방식
+    - html 태그로 시작해서 html 태그로 끝나는 완전한  HTML을 서버로부터 전송받아 웹페이지 전체를 처음부터 다시 렌더링하는 방식으로 동작
+    - 화면이 전환되면 서버로부터 새로운 HTML을 전송받아 웹페이지 전체를 처음부터 다시 렌더링
+- 장점 (전통방식과 비교)
+    - 변경할 부분을 갱신하는데 필요한 데이터만 서버로부터 전송받기 때문에 불필요한 데이터 통신이 발생하지 않음
+    - 변경할 필요가 없는 부분은 다시 렌더링 하지 않기 때문에 화면이 순간적으로 깜빡이는 현상이 없음
+    - 클라이언트와 서버와의 통신이 비동기 방식으로 동작하기 때문에 서버에게 요청을 보낸 이후 블로킹이 발생하지 않음
+    - 스크립트나 스타일 시트는 한 번만 요청하면 되므로 서버에 대한 연결을 줄여줌
+    - 상태를 페이지에서 관리 할 수 있음
+        - 메인 컨테이너 페이지가 다시 로드되지 않기 때문에 JavaScript의 변수와 DOM의 상태가 유지
+    - SPA의 대부분의 장점과 같음
+- 단점
+    - 동적 웹 페이지는 북마크하기 어려움
+    - 브라우저에서 JavaScript가 비활성화된 경우 작동하지 않음
+    - 일부 웹 크롤러는 JavaScript를 실행하지 않으며 JavaScript에 의해 로드된 콘텐츠를 볼 수 없음
+    - SPA의 대부분의 단점과 같음
+
+## 17. **JSONP가 어떻게 동작하는지(그리고 Ajax와 어떻게 다른지)를 설명하세요**
+
+- 동일출처원칙(Same-origin policy, SOP)
+    - 웹페이지가 전달된 서버와 동일한 도메인의 서버로부터 전달된 데이터는 문제없이 처리할 수 있음
+    - 보안상의 이유로 다른 도메인(http와 https, 포트가 다르면 다른 도메인으로 간주한다)으로의 요청(크로스 도메인 요청)은 제한
+- SOP 우회방법 3가지
+    - **웹서버의 프록시 파일**
+        - 프록시(Proxy) : 서버에 원격 서버로부터 데이터를 수집하는 별도의 기능을 추가
+    - JSONP(JSON with Padding)
+        - script 태그의 원본 주소에 대한 제약은 존재하지 않기 때문에 이것을 이용하여 다른 도메인의 서버에서 데이터를 수집하는 방법
+        - 자신의 서버에 함수를 정의하고 다른 도메인의 서버에 얻고자 하는 데이터를 인수로 하는 함수 호출문을 로드하는 것
+            
+            ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/995fa3b4-18fa-4149-89e4-ec5f8ae984e1/Untitled.png)
+            
+        - 보안 문제로 인해 JSONP는 [CORS](https://ko.wikipedia.org/w/index.php?title=%ED%81%AC%EB%A1%9C%EC%8A%A4_%EC%98%A4%EB%A6%AC%EC%A7%84_%EB%A6%AC%EC%86%8C%EC%8A%A4_%EC%85%B0%EC%96%B4%EB%A7%81&action=edit&redlink=1)로 대체
+        - 예시
+            - 외부 서비스 `http://server.example.com/Users/1234`에서 사람 Foo의 기록을 JSON 포맷으로 반환한다 하자. 다음과 같은 JSON 포맷을 볼 수 있을 것이다.
+            
+            ```jsx
+            {
+                **"Name"**: "Foo",
+                **"Id"**: 1234,
+                **"Rank"**: 7
+            }
+            ```
+            
+            - 이 데이터를 불러오기 위해 다음과 같이 JavaScript의 직접적인 HTTP 통신을 하면 오류가 발생한다.
+            
+            ```jsx
+            **var** xmlhttp = **new** XMLHttpRequest();
+            xmlhttp.open('GET', 'http://server.example.com/Users/1234', **true**);
+            xmlhttp.onload = **function** () {
+              console.log('Retrieved Data: ' + xmlhttp.responseText);
+            };
+            xmlhttp.send(); *// -> 교차 출처 요청 차단*
+            ```
+            
+            - 반면 다음과 같이 script 태그에 JSON 데이터를 직접적으로 삽입하면 JSON 데이터를 교차 출처 정책에 관계 없이 불러올 수 있지만 JavaScript 문법 오류가 발생한다.
+            
+            ```jsx
+            <**script** type="application/javascript"
+                    src="http://server.example.com/Users/1234">
+            </**script**>
+            ```
+            
+            - 이는 웹 브라우저의 JavaScript 엔진이 변수, 상수 정의 등의 특정한 상황 없이 나오는 중괄호 문법을 block으로 해석하기 때문이다.
+            - JSONP는 이러한 웹 브라우저의 특성을 이용해, JSON 데이터를 클라이언트가 지정한 콜백 함수를 호출하는 유효한 JavaScript 문법으로 감싸 클라이언트에 전송한다.
+            - 클라이언트가 'parseResponse'라는 함수를 JSONP 요청의 콜백 함수로 지정하였다고 하면, 다음과 같은 HTML 태그가 문서에 삽입된다.
+            
+            ```jsx
+            <**script** type="application/javascript"
+                    src="http://server.example.com/Users/1234?callback=parseResponse">
+            </**script**>
+            ```
+            
+            - 외부 서비스 server.example.com은 다음과 같이 JSON 데이터를 패딩하여 클라이언트에 보낸다.
+            
+            ```jsx
+            parseRespo**nse**({**"Name"**: "Foo", **"Id"**: 1234, **"Rank"**: 7});
+            ```
+            
+            - 웹 브라우저는 이 데이터를 유효한 JavaScript 프로그램으로 받아들여 실행하고, 콜백 함수인 parseResponse가 실행되며 받아온 데이터를 처리할 수 있게 된다.
+    - **Cross-Origin Resource Sharing(**CORS)
+        - HTTP 헤더에 추가적으로 정보를 추가하여 브라우저와 서버가 서로 통신해야 한다는 사실을 알게하는 방법
+        - 최신 브라우저에서만 동작하며 서버에 HTTP 헤더를 설정해 주어야 함
+
+## 18. **JavaScript 템플릿을 사용한 적이 있나요? 사용해봤다면, 어떤 라이브러리를 사용했나요?**
+
+- JSX
+    - React에서 사용
+        - 자바스크립트 확장문법
+        - XML과 비슷
+        - 작성된 코드는 브라우저에서 실행되기 전에 코드가 번들링되는 과정에서 바벨을 사용하여 일반 자바스크립트 형태의 코드로 변환
+        - HTML 태그 뿐 아니라 컴포넌트도 작성가능
+        - 예
+        
+        ```jsx
+        // JSX
+        
+        class Hello extends React.Component {
+          render() {
+            return <div>Hello {this.props.toWhat}</div>;
+          }
+        }
+        
+        // JSX 안쓸때
+        
+        class Hello extends React.Component {
+          render() {
+            return React.createElement('div', null, `Hello ${this.props.toWhat}`);
+          }
+        }
+        ```
+        
+- 템플릿 리터럴(Template Literal)
+    - 라이브러리에 의존하지 않고 템플릿을 만드는 방법
+    - ES6 도입
+    - Multi-line 문자열, 표현식 삽입, tagged template 등 다양한 문자열 처리 가능
+    - 백틱 ` 문자 사용
+    - 활용
+        - 멀티라인 문자열
+            - 일반 문자열 내에서는 줄바꿈(개행) 허용되지 않음
+            - 이스케이프 문자 \n
+        - 표현식 삽입
+            - `${ }` 표현식을 감싸서 사용
+
+## 19. 호이스팅
+
+- 결론
+    - 함수안에 있는 선언들을 모두 끌어올려서 해당 함수 유효 범위의 최상단에 선언하는 것
+- 설명
+    - 자바스크립트 함수는 실행되기 전에 함수 안에 필요한 변수값들을 모아서 유효범위 최상단에 선언함
+        - 자바스크립트 Parser가 함수 실행 전 해당 함수를 한 번 훑음
+        - 함수 안에 존재하는 변수/함수선언에 대한 정보를 기억하고 있다가 실행시킴
+        - 유효범위 : 함수 블록 안에서 유효
+        - 실제로 코드가 끌어올리지는 것은 아님
+    - var, let, const 변수/함수 선언과 함수 선언문에서 호이스팅이 일어난다
+        - var, let, const 변수/함수의 선언만 위로 끌어 올려지며 할당은 끌어올려지지 않음
+        - let 선언과 동시에 TDZ에 들어가서 초기화가 필요한 별도의 상태로 관리
+        - const는 선언과 동시에 초기화, 할당까지 이뤄져야함
+        - let, const, 함수표현문은 호이스팅이 일어나지 않는 것처럼 동작
+    - 우선순위
+        - 변수선언이 함수선언보다 더 위로 끌어올려짐
+        - 값이 할당되어 있지 않은 변수의 경우, 함수선언문이 변수를 덮어씀
+        - 값이 할당되어 있는 변수의 경우, 변수가 함수선언문을 덮어씀
+    - 주의사항
+        - 코드의 가독성과 유지보수를 위해 호이스팅이 일어나지 않도록 함
+    - 확장개념
+        - 변수생성단계
+            - 선언 : 스코프와 변수 객체가 생성되고, 스코프가 변수 객체를 참조
+            - 초기화 : 변수 객체 값을 위한 공간을 메모리에 할당하며 할당되는 값은 undefined임
+            - 할당 : undefined로 초기화된 변수 객체에 값을 할당
+        - TDZ(Temporal Dead Zone)
+            - 선언은 되어있지만 초기화가 되지 않아 이를 위한 자리가 메모리에 준비되어 있지 않은 상태
+            - var : 선언과 동시에 초기화, 즉 선언과 동시에 undefined 할당
+            - let, const는 선언만 될 뿐 초기화는 변수 선언문에 도달했을 때 이루어지므로 초기화 이전에 변수에 접근하면 참조에러(Reference Error) 발생
+- 요약
+    - 함수안에 있는 var 선언과 함수선언문을 함수 유효범위의 최상단으로 끌어올리는 것
+- 참조
+    - [https://gmlwjd9405.github.io/2019/04/22/javascript-hoisting.html](https://gmlwjd9405.github.io/2019/04/22/javascript-hoisting.html)
+    - [https://yceffort.kr/2020/05/var-let-const-hoisting](https://yceffort.kr/2020/05/var-let-const-hoisting)
+    - [https://velog.io/@holim0/Front-End-면접-질문-대비-Part1-hoisting-closure-this](https://velog.io/@holim0/Front-End-%EB%A9%B4%EC%A0%91-%EC%A7%88%EB%AC%B8-%EB%8C%80%EB%B9%84-Part1-hoisting-closure-this)
+    
+    기초부터 완성까지 프론트엔드
