@@ -323,6 +323,7 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
 - `document.write()`가 코드분석이나 [JavaScript가 활성화된 경우에만 작동하는 스타일을 포함하고 싶을 때](https://www.quirksmode.org/blog/archives/2005/06/three_javascrip_1.html) 사용되는 경우를 설명하는 온라인 답변이 몇 가지 있습니다. 심지어 HTML5 보일러 플레이트에서 [스크립트를 병렬로 로드하고 실행 순서를 보존](https://github.com/paulirish/html5-boilerplate/wiki/Script-Loading-Techniques#documentwrite-script-tag)할 때도 사용됩니다! 그러나, 저는 그 이유가 시대에 뒤떨어진 것으로 생각하고 있으며, 현재는 `document.write()`를 사용하지 않고도 할 수 있습니다. 이것이 틀렸다면 고쳐주세요.
 
 ## 16. Ajax에 대해 가능한 한 자세히 설명하세요.
+## 17. Ajax를 사용하는 것의 장단점은 무엇인가요?
 
 - Ajax(asynchronous JavaScript and XML)
     - 자바스크립트를 사용하여 브라우저가 서버에게 비동기 방식으로 데이터를 요청하고, 서버가 응답한 데이터를 수신하여 웹페이지를 동적으로 갱신하는 프로그래밍 방식
@@ -360,9 +361,9 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
     - 일부 웹 크롤러는 JavaScript를 실행하지 않으며 JavaScript에 의해 로드된 콘텐츠를 볼 수 없음
     - SPA의 대부분의 단점과 같음
 
-## 17. **JSONP가 어떻게 동작하는지(그리고 Ajax와 어떻게 다른지)를 설명하세요**
+## 18. **JSONP가 어떻게 동작하는지(그리고 Ajax와 어떻게 다른지)를 설명하세요**
 
-- 동일출처원칙(Same-origin policy, SOP)
+- 동일참조원칙(Same-origin policy, SOP)
     - 웹페이지가 전달된 서버와 동일한 도메인의 서버로부터 전달된 데이터는 문제없이 처리할 수 있음
     - 보안상의 이유로 다른 도메인(http와 https, 포트가 다르면 다른 도메인으로 간주한다)으로의 요청(크로스 도메인 요청)은 제한
 - SOP 우회방법 3가지
@@ -394,10 +395,10 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
             xmlhttp.onload = **function** () {
               console.log('Retrieved Data: ' + xmlhttp.responseText);
             };
-            xmlhttp.send(); *// -> 교차 출처 요청 차단*
+            xmlhttp.send(); *// -> 교차 참조 요청 차단*
             ```
             
-            - 반면 다음과 같이 script 태그에 JSON 데이터를 직접적으로 삽입하면 JSON 데이터를 교차 출처 정책에 관계 없이 불러올 수 있지만 JavaScript 문법 오류가 발생한다.
+            - 반면 다음과 같이 script 태그에 JSON 데이터를 직접적으로 삽입하면 JSON 데이터를 교차 참조 정책에 관계 없이 불러올 수 있지만 JavaScript 문법 오류가 발생한다.
             
             ```jsx
             <**script** type="application/javascript"
@@ -426,7 +427,7 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
         - HTTP 헤더에 추가적으로 정보를 추가하여 브라우저와 서버가 서로 통신해야 한다는 사실을 알게하는 방법
         - 최신 브라우저에서만 동작하며 서버에 HTTP 헤더를 설정해 주어야 함
 
-## 18. **JavaScript 템플릿을 사용한 적이 있나요? 사용해봤다면, 어떤 라이브러리를 사용했나요?**
+## 19. **JavaScript 템플릿을 사용한 적이 있나요? 사용해봤다면, 어떤 라이브러리를 사용했나요?**
 
 - JSX
     - React에서 사용
@@ -466,7 +467,7 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
         - 표현식 삽입
             - `${ }` 표현식을 감싸서 사용
 
-## 19. 호이스팅
+## 20. 호이스팅
 
 - 결론
     - 함수안에 있는 선언들을 모두 끌어올려서 해당 함수 유효 범위의 최상단에 선언하는 것
@@ -504,3 +505,165 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
     - [https://velog.io/@holim0/Front-End-면접-질문-대비-Part1-hoisting-closure-this](https://velog.io/@holim0/Front-End-%EB%A9%B4%EC%A0%91-%EC%A7%88%EB%AC%B8-%EB%8C%80%EB%B9%84-Part1-hoisting-closure-this)
     
     기초부터 완성까지 프론트엔드
+
+## 21. event bubbling에 대해 설명하세요.
+
+- 이벤트 전파
+    - DOM 트리 상에 존재하는 DOM 요소 노드에서 발생한 이벤트는 DOM 트리를 통해 전파
+    - 생성된 이벤트 객체는 이벤트를 발생시킨 DOM 요소인 이벤트 타겟을 중심으로 DOM 트리를 통해 전파
+        
+        ![https://poiemaweb.com/img/eventflow.svg](https://poiemaweb.com/img/eventflow.svg)
+        
+    - 3단계
+        - 캡쳐링 단계 : 이벤트가 상위 요소에서 하위 요소 방향으로 전파
+        - 타겟 단계 : 이벤트가 이벤트 타겟에 도달
+        - 버블링 단계 : 이벤트가 하위 요소에서 상위 요소 방향으로 전파
+            - 이벤트가 제일 깊은 곳에 있는 요소에서 시작해 부모 요소를 거슬러 올라가며 발생하는 모양이 마치 물속 거품(bubble)과 닮았기 때문
+        - capture 옵션
+            - 
+            - `false`이면(default 값) 핸들러는 버블링 단계에서 동작
+            - `true`이면 핸들러는 캡처링 단계에서 동작
+        
+        ```jsx
+        elem.addEventListener(..., {capture: true})
+        // 아니면, 아래 같이 {capture: true} 대신, true를 써줘도 됩니다.
+        elem.addEventListener(..., true)
+        ```
+        
+    - 주의
+        - 버블링으로 전파되지 않는 이벤트
+            - 포커스 : focus/blur
+            - 리소스 : load/unload/abort/error
+            - 마우스 : mouseenter/mouseleave
+    - 작동 방식
+        - 같은 요소와 같은 단계에 설정한 리스너는 설정한 순서대로 동작
+    - 캡처링 단계는 거의 쓰이지 않고, 주로 버블링 단계의 이벤트만 다뤄지는 이유
+        - 현실에서 사고가 발생하면 지역 경찰이 먼저 사고를 조사합니다. 그 지역에 대해 가장 잘 아는 기관은 지역 경찰이기 때문입니다. 추가 조사가 필요하다면 그 이후에 상위 기관이 사건을 넘겨받습니다.
+        - 이벤트 핸들러도 이와 같은 논리로 만들어졌습니다. 특정 요소에 할당된 핸들러는 그 요소에 대한 자세한 사항과 무슨 일을 해야 할지 가장 잘 알고 있습니다. `<td>`에 할당된 핸들러는 `<td>`에 대한 모든 것을 알고 있기 때문에 `<td>`를 다루는데 가장 적합합니다. 따라서 `<td>`를 다룰 기회를 이 요소에 할당된 핸들러에게 가장 먼저 주는 것입니다.
+- 참조
+    - [https://ko.javascript.info/bubbling-and-capturing](https://ko.javascript.info/bubbling-and-capturing)
+    - 모던 자바스크립트 Deep Dive
+
+## 22. "attribute"와 "property"의 차이점은 무엇인가요?
+
+- 브라우저
+    - 브라우저는 웹페이지를 만나면 HTML을 읽어(파싱(parsing)) DOM 객체를 생성
+    - DOM 객체를 만들 때 HTML *표준* 속성(id 등)을 인식하고, 이 표준 속성을 사용해 DOM 프로퍼티를 만듬
+- HTML attribute(속성) vs DOM property(프로퍼티)
+    1. element node object에는 HTML attribute에 대응하는 DOM property가 존재
+        - 주의 : 속성-프로퍼티가 항상 일대일로 매핑되지는 않음
+    2. HTML attribute
+        1. 역할 : HTML 요소의 초기 상태를 지정하는 것
+        2. 표준 속성이 아닌 경우 아래의 메서드를 사용해 접근할 수 있음
+            1. 메소드
+                - `elem.hasAttribute(name)` – 속성 존재 여부 확인
+                - `elem.getAttribute(name)` – 속성값을 가져옴
+                - `elem.setAttribute(name, value)` – 속성값을 변경함
+                - `elem.removeAttribute(name)` – 속성값을 지움
+            2. 예
+                1.  `getAttribute('About')` – 첫 번째 글자가 대문자 A이지만, HTML 안에서는 모두 소문자가 되어 속성은 대·소문자를 구분하지 않음
+                2. 어떤 값이든 속성에 대입할 수 있지만, 최종적으론 문자열로 바뀜
+    3. DOM property
+        1. 사용자가 입력한 최신 상태는 HTML attribute에 대응하는 element node의 DOM property가 관리
+        2. 사용자의 입력에 의한 상태 변화에 반응하여 최신상태 유지
+        3. DOM 프로퍼티와 메서드는 일반 자바스크립트 객체처럼 행동
+    4. 비교표
+    
+    |  | 속성 | 프로퍼티 |
+    | --- | --- | --- |
+    | 타입 | 문자열 | 모든 타입 가능 |
+    | 이름 | 대·소문자 구분하지 않음 | 대·소문자 구분 |
+    1. 주의
+        1. 비표준 속성을 사용해 코드를 작성했는데 나중에 그 속성이 표준으로 등록되게 되면 문제가 발생
+        2. 충돌 상황을 방지하기 위한 속성인 [data-*](https://html.spec.whatwg.org/#embedding-custom-non-visible-data-with-the-data-*-attributes)
+        3. **’data-'로 시작하는 속성 전체는 개발자가 용도에 맞게 사용하도록 별도로 예약됩니다. `dataset` 프로퍼티를 사용하면 이 속성에 접근할 수 있음**
+        4. `elem`에 이름이 `"data-about"`인 속성이 있다 `elem.dataset.about`을 사용해 그 값을 얻을 수 있음
+1. 참조
+    1. [https://ko.javascript.info/dom-attributes-and-properties](https://ko.javascript.info/dom-attributes-and-properties)
+    2. 모던 자바스크립트 Deep Dive
+
+## 23. 내장 JavaScript 객체를 확장하는 것이 좋은 생각이 아닌 이유는 무엇인가요?
+
+- 네이티브 프로토타입은 수정할 수 있음
+    - 예시
+    
+    ```jsx
+    String.prototype.show = function() {
+      alert(this);
+    };
+    
+    "BOOM!".show(); // BOOM!
+    ```
+    
+    - 네이티브 프로토타입을 수정하는 것은 추천하지 않음
+        - 프로토타입은 전역으로 영향을 미치기 때문에 프로토타입을 조작하면 기존 코드와 충돌이 날 가능성이 큼
+        - 두 라이브러리에서 동시에 `String.prototype.show` 메서드를 추가하면 한 라이브러리의 메서드가 다른 라이브러리의 메서드를 덮어씀
+        - 예외
+            - 모던 프로그래밍에서 네이티브 프로토타입 변경을 허용하는 경우 : 폴리필을 만들 때
+                - 폴리필은 자바스크립트 명세서에 있는 메서드와 동일한 기능을 하는 메서드 구현체를 의미
+                - 명세서에는 정의되어 있으나 특정 자바스크립트 엔진에서는 해당 기능이 구현되어있지 않을 때 폴리필을 사용
+                - 폴리필을 직접 구현하고 난 후, 폴리필을 내장 프로토타입에 추가할 때만 네이티브 프로토타입을 변경
+- 참조
+    
+    [https://ko.javascript.info/native-prototypes](https://ko.javascript.info/native-prototypes)
+
+## 24. document load 이벤트와 document DOMContentLoaded 이벤트의 차이점은 무엇인가요?
+
+- HTML 문서의 생명주기의 3가지 주요 이벤트
+    - DOMContentLoaded
+        - 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생
+        - 이미지 파일(`<img>`)이나 스타일시트 등의 기타 자원은 기다리지 않음
+        - 활용
+            - DOM이 준비된 것을 확인한 후 원하는 DOM 노드를 찾아 핸들러를 등록해 인터페이스를 초기화할 때
+        - 특징
+            - `<script>...</script>`나 `<script src="..."></script>`를 사용해 삽입한 스크립트는 DOMContentLoaded가 실행되는 것을 막으므로 브라우저는 이 스크립트가 실행되길 기다림
+                - 이유
+                    - `<script>`에 있는 스크립트가 DOM 조작 관련 로직을 담고 있을 수 있기 때문에 이런 방지책이 만들어 졌음
+            - `DOMContentLoaded`는 실행되어도 이미지를 비롯한 기타 리소스들은 여전히 로드 중일 수 있음
+        - 주의
+            - **DOMContentLoaded를 막지 않는 스크립트**
+                - 위와 같은 규칙엔 두 가지 예외사항이 있음
+                - `async` 속성이 있는 스크립트는 `DOMContentLoaded`를 막지 않음
+                    - 페이지 구성이 끝난 후에 async 스크립트 다운로딩이 끝난 경우, `DOMContentLoaded`는 async 스크립트 실행 전에 발생할 수 있음
+                    - async 스크립트가 짧아서 페이지 구성이 끝나기 전에 다운로드 되거나 스크립트가 캐싱처리 된 경우, `DOMContentLoaded`는 `async` 스크립트 실행 후에 발생할 수도 있음
+                    - async, defer
+                    
+                    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a2025b7d-5528-4819-b159-b2efaee18934/Untitled.png)
+                    
+                    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/62af946d-de1d-4003-9fbb-fda78c235280/Untitled.png)
+                    
+                - `document.createElement('script')`로 동적으로 생성되고 웹페이지에 추가된 스크립트는 `DOMContentLoaded`를 막지 않음
+    - load
+        - HTML로 DOM 트리를 만드는 게 완성되었을 뿐만 아니라 이미지, 스타일시트 같은 외부 자원도 모두 불러오는 것이 끝났을 때 발생
+        - 활용
+            - 이미지 사이즈를 확인할 때 등. 외부 자원이 로드된 후이기 때문에 스타일이 적용된 상태이므로 화면에 뿌려지는 요소의 실제 크기를 확인할 수 있음
+        - 특징
+            - 페이지를 비롯한 이미지 등의 자원 전부가 모두 불러와졌을 때 `window` 객체에서 실행됨
+            - 모든 자원이 로드되는 걸 기다리기에는 시간이 오래 걸릴 수 있으므로 이 이벤트는 잘 사용되지 않음
+    - beforeunload/unload
+        - 사용자가 페이지를 떠날 때 발생
+        - 활용
+            - `beforeunload` – 사용자가 사이트를 떠나려 할 때, 변경되지 않은 사항들을 저장했는지 확인시켜줄 때
+            - `unload` – 사용자가 진짜 떠나기 전에 사용자 분석 정보를 담은 통계자료를 전송하고자 할 때
+        - 특징
+            - 사용자가 최종적으로 사이트를 떠날 때 `window` 객체에서 발생
+            - `unload` 이벤트 핸들러에선 지연을 유발하는 복잡한 작업이나 사용자와의 상호작용은 할 수 없기때문에 `unload` 이벤트는 아주 드물게 사용됨
+- 참조
+    - [https://ko.javascript.info/script-async-defer](https://ko.javascript.info/script-async-defer)
+    - [https://ko.javascript.info/onload-ondomcontentloaded](https://ko.javascript.info/onload-ondomcontentloaded)
+
+## 25. ==와 ===의 차이점은 무엇인가요?
+
+- 비교연산자
+    - == : 동등 비교
+        - 좌항과 우항의 피연산자를 비교할 때 먼저 암묵적 타입 변환을 통해 타입을 일치시킨 후 비교
+    - === : 일치 비교
+        - 좌항과 우항의 피연산자가 타입과 값이 같을 때 true를 반환
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e7618cbf-77db-47a7-a3ce-4b6d12f440af/Untitled.png)
+        
+    - 개발자의 의도와는 상관없이 자바스크립트 엔진에 의해 암묵적으로 타입 자동 변환되기도함
+        - 타입스크립트 도입 필요
+- 참조
+    
+    모던 자바스크립트 Deep Dive
