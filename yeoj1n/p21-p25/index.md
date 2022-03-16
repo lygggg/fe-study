@@ -1,6 +1,7 @@
 ## 21. Describe event bubbling.
 
 <img src="./bubbling.png">
+
 이벤트가 제일 하위 요소부터 시작해서 부모요소까지 올라가는 현상
 
 **focus, focusout** 이벤트는 전파 X
@@ -73,7 +74,9 @@ arr.includes(1);// true
 arr.includes = function() {
     console.log('1');
 }
-arr.includes("aa");//
+arr.includes("aa");
+
+
 ```
 
 ## 24. Difference between document load event and document DOMContentLoaded event?
@@ -82,6 +85,8 @@ DOMContentLoaded 이벤트: HTML 문서 파싱 후 실행되는 이벤트
 window의 load 이벤트: DOM과 모든 resource, asset이 로드 후 실행되는 이벤트
 
 DOMContentLoaded로 함수를 호출하는 경우 js가 로드된 상태가 아니기 때문에 프로그램이 정상동작하지 않을 수 있다.
+
+https://ko.javascript.info/script-async-defer
 
 ## 25. What is the difference between == and ===?
 
