@@ -1,0 +1,41 @@
+<!-- <html>
+  <ul id="people">
+    <li id="lee">lee</li>
+    <li id="kim">kim</li>
+  </ul>
+</html>
+
+<script>
+  const $people = document.querySelector("#people");
+
+  $people.addEventListener("click", (e) => {
+    console.log("e.target", e.target);
+  });
+</script> -->
+
+<html>
+  <div class="first-cover">
+    <ul class="second-cover">
+      <li class="third-cover">
+        <div class="last-el">event</div>
+      </li>
+    </ul>
+  </div>
+
+  <script>
+    const lastEl = document.querySelector;
+    $(".last-el").click(function (e) {
+      e.stopPropagation();
+      alert("last-el");
+    });
+    $(".third-cover").click(function () {
+      alert("third-cover");
+    });
+    $(".second-cover").click(function () {
+      alert("second-cover");
+    });
+    $(".first-cover").click(function () {
+      alert("first-cover");
+    });
+  </script>
+</html>
