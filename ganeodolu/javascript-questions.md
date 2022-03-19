@@ -667,3 +667,24 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
 - 참조
     
     모던 자바스크립트 Deep Dive
+
+## 26. JavaScript와 관련하여 same-origin 정책을 설명하세요
+
+- SOP(Same Origin Policy) : 동일 출처 정책
+    - 브라우저 내 탭과 창은 대개 서로의 정보를 알 수 없음
+    - 그런데 자바스크립트를 사용해 한 창에서 다른 창을 열 때는 예외가 적용
+    - 이 경우에도 도메인이나 프로토콜, 포트가 다르다면 페이지에 접근할 수 없음
+    - 자바스크립트는 스크립트를 포함하고 있는 문서와 같은 출처의 문서에 있는 window와 Document 객체의 속성만을 사용할 수 있음
+    - 한 웹사이트내에서만 자원을 접근할 수 있기 때문에 다른 웹사이트의 이미지나 글을 가져올 수 없음
+    - **예외적인 경우**를 두었고 그 중 하나가 바로 **CORS 조항을 지킨 자원**
+- Origin
+    - 출처 : PROTOCOL + HOST + PORT
+        - 세가지 요소들이 전부 같다 = 같은 출처 (Same Origin)
+        - 세가지 중 하나라도 틀리다 = 다른 출처 (Cross Origin)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/da16dc49-0409-48d5-b668-86d5c5aeddd5/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/549ecbc8-8949-4e1d-b754-dc21480ef1d7/Untitled.png)
+    
+- 출처
+    - [https://velog.io/@sj950902/CORS와-SOP에-대해-알아보자-1탄](https://velog.io/@sj950902/CORS%EC%99%80-SOP%EC%97%90-%EB%8C%80%ED%95%B4-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-1%ED%83%84)
