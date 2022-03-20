@@ -688,3 +688,89 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
     
 - 출처
     - [https://velog.io/@sj950902/CORS와-SOP에-대해-알아보자-1탄](https://velog.io/@sj950902/CORS%EC%99%80-SOP%EC%97%90-%EB%8C%80%ED%95%B4-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-1%ED%83%84)
+
+## 27. 다음이 작동하게 만들어보세요.
+
+javascript```
+duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
+```
+
+javascript```
+duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
+```
+
+## 28. 왜 Ternary expression이라고 부르고, "Ternary"라는 단어는 무엇을 나타내나요?
+
+- Ternary Operator 삼항 조건 연산자
+    - 자바스크립트의 유일한 삼항 연산자
+    - 형식
+        - 조건식 ? 조건식이 true일 때 반환할 값 : 조건식이 false일 때 반환할 값
+    - if else문과 차이
+        - 삼항 조건 연산자 표현식은 값처럼 사용할 수 있지만 if else 문은 값처럼 사용 불가
+- 삼항 조건 연산자 표현식은 값으로 평가할 수 있는 표현식인 문
+    
+    
+- 표현식 expression
+    
+    값으로 평가될 수 있는 문
+    
+    표현식이 평가되면 새로운 값을 생성하거나 기존값을 참조
+    
+- 문 statement
+    - 프로그램을 구성하는 기본 단위이자 최소 실행 단위
+    - 여러개의 토큰으로 구성
+- 토큰
+    - 문법적으로 더이상 나눌 수 없는 코드의 기본 요소
+    - 예) 식별자, 연산자 등
+- 출처
+    
+    모던 자바스크립트 Deep Dive
+
+## 29. "use strict"; 이 무엇인가요? 사용시 장단점이 무엇인가요?
+
+- strict mode
+    - ES5부터 추가됨
+    - 자바스크립트 언어의 문법을 좀 더 엄격히 적용하여 오류를 발생시킬 가능성이 높거나 자바스크립트 엔진의 최적화 작업에 문제를 일으킬 수 있는 코드에 대해 명시적인 에러를 발생
+    - ESLint를 사용하여 유사한 효과 얻을 수 있음
+    - 적용방법
+        - 전역의 선두 또는 함수 몸체의 선두에 `‘use strict’;` 를 추가
+        - 전역과 함수단위로 적용하는 것은 비추
+        - 즉시 실행함수로 감싼 스크립트 단위로 적용하는 것이 바람직
+    - strict mode가 발생시키는 에러
+        - 암묵적 전역
+            - 선언하지 않은 변수를 참조하면 ReferenceError 발생
+        - 변수, 함수, 매개변수의 삭제
+            - delete 연산자로 삭제하면 SyntaxError 발생
+        - 매개변수 이름의 중복
+            - SyntaxError 발생
+        - with 문의 사용
+            - SyntaxError 발생
+            - with 문은 전달된 객체를 스코프 체인에 추가
+            - 객체이름을 생략할 수 있어서 간단하지만 성능과 가독성이 나쁨
+    - strict mode 적용에 의한 변화
+        - 일반함수의 this
+            - 함수를 일반 함수로서 호출하면 this에 undefined가 바인딩됨
+            - 생성자 함수가 아닌 일반함수 내부에서는 this를 사용할 필요가 없기 때문
+            - 에러는 발생하지 않음
+        - arguments 객체
+            - 매개변수에 전달된 인수를 재할당해 변경해도 arguments 객체에 미반영됨
+- 출처
+    - 모던 자바스크립트 Deep Dive
+
+## 30. 100까지 증가하면서 3의 배수에는 fizz를 출력하고, 5의 배수에는 buzz를 출력하고, 3과 5의 배수에는 fizzbuzz를 출력하는 for loop를 만드세요.
+
+javascript```
+function solution(num) {
+  for (let i = 1; i <= num; i++){
+    let answer = '';
+    if (i % 3 === 0) {
+      answer += 'fizz';
+    }
+    if (i % 5 === 0) {
+      answer += 'buzz';
+    }
+    console.log(i, answer)
+  }
+}
+console.log(solution(100))
+```
