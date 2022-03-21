@@ -667,3 +667,110 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
 - 참조
     
     모던 자바스크립트 Deep Dive
+
+## 26. JavaScript와 관련하여 same-origin 정책을 설명하세요
+
+- SOP(Same Origin Policy) : 동일 출처 정책
+    - 브라우저 내 탭과 창은 대개 서로의 정보를 알 수 없음
+    - 그런데 자바스크립트를 사용해 한 창에서 다른 창을 열 때는 예외가 적용
+    - 이 경우에도 도메인이나 프로토콜, 포트가 다르다면 페이지에 접근할 수 없음
+    - 자바스크립트는 스크립트를 포함하고 있는 문서와 같은 출처의 문서에 있는 window와 Document 객체의 속성만을 사용할 수 있음
+    - 한 웹사이트내에서만 자원을 접근할 수 있기 때문에 다른 웹사이트의 이미지나 글을 가져올 수 없음
+    - **예외적인 경우**를 두었고 그 중 하나가 바로 **CORS 조항을 지킨 자원**
+- Origin
+    - 출처 : PROTOCOL + HOST + PORT
+        - 세가지 요소들이 전부 같다 = 같은 출처 (Same Origin)
+        - 세가지 중 하나라도 틀리다 = 다른 출처 (Cross Origin)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/da16dc49-0409-48d5-b668-86d5c5aeddd5/Untitled.png)
+    
+    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/549ecbc8-8949-4e1d-b754-dc21480ef1d7/Untitled.png)
+    
+- 출처
+    - [https://velog.io/@sj950902/CORS와-SOP에-대해-알아보자-1탄](https://velog.io/@sj950902/CORS%EC%99%80-SOP%EC%97%90-%EB%8C%80%ED%95%B4-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-1%ED%83%84)
+
+## 27. 다음이 작동하게 만들어보세요.
+
+javascript```
+duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
+```
+
+javascript```
+duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
+```
+
+## 28. 왜 Ternary expression이라고 부르고, "Ternary"라는 단어는 무엇을 나타내나요?
+
+- Ternary Operator 삼항 조건 연산자
+    - 자바스크립트의 유일한 삼항 연산자
+    - 형식
+        - 조건식 ? 조건식이 true일 때 반환할 값 : 조건식이 false일 때 반환할 값
+    - if else문과 차이
+        - 삼항 조건 연산자 표현식은 값처럼 사용할 수 있지만 if else 문은 값처럼 사용 불가
+- 삼항 조건 연산자 표현식은 값으로 평가할 수 있는 표현식인 문
+    
+    
+- 표현식 expression
+    
+    값으로 평가될 수 있는 문
+    
+    표현식이 평가되면 새로운 값을 생성하거나 기존값을 참조
+    
+- 문 statement
+    - 프로그램을 구성하는 기본 단위이자 최소 실행 단위
+    - 여러개의 토큰으로 구성
+- 토큰
+    - 문법적으로 더이상 나눌 수 없는 코드의 기본 요소
+    - 예) 식별자, 연산자 등
+- 출처
+    
+    모던 자바스크립트 Deep Dive
+
+## 29. "use strict"; 이 무엇인가요? 사용시 장단점이 무엇인가요?
+
+- strict mode
+    - ES5부터 추가됨
+    - 자바스크립트 언어의 문법을 좀 더 엄격히 적용하여 오류를 발생시킬 가능성이 높거나 자바스크립트 엔진의 최적화 작업에 문제를 일으킬 수 있는 코드에 대해 명시적인 에러를 발생
+    - ESLint를 사용하여 유사한 효과 얻을 수 있음
+    - 적용방법
+        - 전역의 선두 또는 함수 몸체의 선두에 `‘use strict’;` 를 추가
+        - 전역과 함수단위로 적용하는 것은 비추
+        - 즉시 실행함수로 감싼 스크립트 단위로 적용하는 것이 바람직
+    - strict mode가 발생시키는 에러
+        - 암묵적 전역
+            - 선언하지 않은 변수를 참조하면 ReferenceError 발생
+        - 변수, 함수, 매개변수의 삭제
+            - delete 연산자로 삭제하면 SyntaxError 발생
+        - 매개변수 이름의 중복
+            - SyntaxError 발생
+        - with 문의 사용
+            - SyntaxError 발생
+            - with 문은 전달된 객체를 스코프 체인에 추가
+            - 객체이름을 생략할 수 있어서 간단하지만 성능과 가독성이 나쁨
+    - strict mode 적용에 의한 변화
+        - 일반함수의 this
+            - 함수를 일반 함수로서 호출하면 this에 undefined가 바인딩됨
+            - 생성자 함수가 아닌 일반함수 내부에서는 this를 사용할 필요가 없기 때문
+            - 에러는 발생하지 않음
+        - arguments 객체
+            - 매개변수에 전달된 인수를 재할당해 변경해도 arguments 객체에 미반영됨
+- 출처
+    - 모던 자바스크립트 Deep Dive
+
+## 30. 100까지 증가하면서 3의 배수에는 fizz를 출력하고, 5의 배수에는 buzz를 출력하고, 3과 5의 배수에는 fizzbuzz를 출력하는 for loop를 만드세요.
+
+javascript```
+function solution(num) {
+  for (let i = 1; i <= num; i++){
+    let answer = '';
+    if (i % 3 === 0) {
+      answer += 'fizz';
+    }
+    if (i % 5 === 0) {
+      answer += 'buzz';
+    }
+    console.log(i, answer)
+  }
+}
+console.log(solution(100))
+```
