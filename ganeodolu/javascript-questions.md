@@ -691,11 +691,11 @@ console.log(getThisBinding.bind(thisArg)()); // {a:1}
 
 ## 27. 다음이 작동하게 만들어보세요.
 
-javascript```
+```js
 duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
 ```
 
-javascript```
+```js
 duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
 ```
 
@@ -759,7 +759,7 @@ duplicate([1, 2, 3, 4, 5]); // [1,2,3,4,5,1,2,3,4,5]
 
 ## 30. 100까지 증가하면서 3의 배수에는 fizz를 출력하고, 5의 배수에는 buzz를 출력하고, 3과 5의 배수에는 fizzbuzz를 출력하는 for loop를 만드세요.
 
-javascript```
+```jsx
 function solution(num) {
   for (let i = 1; i <= num; i++){
     let answer = '';
@@ -769,8 +769,157 @@ function solution(num) {
     if (i % 5 === 0) {
       answer += 'buzz';
     }
-    console.log(i, answer)
+    console.log(i, answer);
   }
 }
-console.log(solution(100))
+console.log(solution(100));
 ```
+
+## 31. Single page app이 무엇인지 설명하고 SEO-friendly하게 만드는 방법을 설명하세요
+
+- SPA****(Single Page Application)****
+    - 서버로부터 새로운 페이지를 불러오지 않고 현재의 페이지를 동적으로 다시 작성함으로써 사용자와 소통하는 웹 애플리케이션이나 웹사이트
+    - 현재의 HTML을 고정하고 변경되는 부분에 대해서만 서버에서 불러와 클라이언트 사이드에서 렌더링하는 방식
+    - 장점
+        - **페이지 로딩속도가 빠름**
+    - 단점
+        - **최초 페이지 로딩속도가 느림**
+            - 클라이언트가 최초로 서버에 요청할 때 모든 데이터를 가져오기 때문
+        - **SEO에 적합하지 않을 수 있음**
+- SEO(Search Engine Optimization)
+    - 웹사이트 속도가 빨라 사용자 경험 측면에서 우수한 SPA는 사실 SEO친화적이지 않음
+    - SPA는 하나의 페이지에 여러 페이지를 클라이언트 사이드에서 자바스크립트로 구현하는 방식이기 때문에 자바스크립트를 읽지 못하는 검색엔진에 대해서는 크롤링이 안되어 색인이 되지 않는 문제가 발생할 수 있음
+- SEO 해결방법
+    - SSR****(Server Side Rendering)****
+        - SPA는 기본적으로 CSR (Client-Side Rendering) 방식으로 구현
+        - SPA이지만 크롤링에 더 친화적인 SSR 방식(서버쪽에서 렌더링 준비를 끝마친 상태로 클라이언트에 전달하는 방식)으로 사이트를 구축하는 것이 SEO의 관점에서 적합
+        - 대표적인 SSR 프레임워크로는 React의 Next.js, Vue의 Nuxt
+- 출처
+    
+    [https://www.ascentkorea.com/seo-for-spa/](https://www.ascentkorea.com/seo-for-spa/)
+
+## 32. Promises와 그 Polyfill에 대한 당신의 경험은 어느 정도인가요?
+
+- 프로미스의 생성
+    - 프로미스는 Promise 생성자 함수를 통해 인스턴스화
+    - Promise 생성자 함수는 비동기 작업을 수행할 콜백 함수를 인자로 전달받는데 이 콜백 함수는 resolve와 reject 함수를 인자로 전달
+    
+    ```jsx
+    // Promise 객체의 생성
+    const promise = new Promise((resolve, reject) => {
+      // 비동기 작업을 수행한다.
+    
+      if (/* 비동기 작업 수행 성공 */) {
+        resolve('result');
+      }
+      else { /* 비동기 작업 수행 실패 */
+        reject('failure reason');
+      }
+    });
+    ```
+    
+- 후속 처리 메소드
+    - then
+        - then 메소드는 두 개의 콜백 함수를 인자로 전달 받음
+        - 첫 번째 콜백 함수는 성공(fulfilled, resolve 함수가 호출된 상태) 시 호출되고 두 번째 함수는 실패(rejected, reject 함수가 호출된 상태) 시 호출
+        - **then 메소드는 Promise를 반환**
+    - catch
+        - 예외(비동기 처리에서 발생한 에러와 then 메소드에서 발생한 에러)가 발생하면 호출
+        - catch 메소드는 Promise를 반환
+    
+- 폴리필
+    - 바벨 사용
+        - **Babel**은 **구 브라우저**에서도 최신자바스크립트 코드를 작동하도록 변환해주는 컴파일러(혹은 트랜스파일러)
+
+## 33. Callback 대신에 Promise를 사용할 때의 장점과 단점은 무엇인가요?
+
+- 장점
+    - 콜백 사용시 콜백 헬로 인해 가독성 안좋음
+        - 예
+        
+        ```jsx
+        step1(function(value1) {
+          step2(value1, function(value2) {
+            step3(value2, function(value3) {
+              step4(value3, function(value4) {
+                step5(value4, function(value5) {
+                    // value5를 사용하는 처리
+                });
+              });
+            });
+          });
+        });
+        ```
+        
+    - 비동기처리 중 발생한 에러의 처리가 가능
+        - 예
+    
+    ```jsx
+    try {
+      setTimeout(() => { throw new Error('Error!'); }, 1000);
+    } catch (e) {
+      console.log('에러를 캐치하지 못한다..');
+      console.log(e);
+    }
+    ```
+    
+    - 여러 개의 비동기 처리 쉽게 가능
+        - Promise.all() : 병렬로 순서 보장
+        
+        ```jsx
+        Promise.all([
+          new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+          new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+          new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+        ]).then(console.log) // [ 1, 2, 3 ]
+          .catch(console.log);
+        ```
+        
+        - Promise.race() : 병렬로 가장 먼저 처리된 프로미스가 resolve한 결과를 resolve
+- 단점
+    - 브라우저가 ES6(ES2015)를 지원하지 않으면 사용불가
+- 참고
+    
+    [https://poiemaweb.com/es6-promise](https://poiemaweb.com/es6-promise)
+    
+    모던 자바스크립트 Deep Dive
+
+## 34. JavaScript로 컴파일되는 언어로 JavaScript 코드를 작성하는 경우의 장단점은 무엇인가요?
+
+- TypeScript
+    - 특징
+        - 타입스크립트는 마이크로소프트(MS)에서 개발
+        - 자바스크립트의 상위 집합으로서 ECMA의 최신 표준을 충분히 지원
+        - ES6의 새로운 기능들을 사용하기 위해 Babel과 같은 별도 트랜스파일러를 사용하지 않아도 됨
+        - TS -> (컴파일(트랜스파일)) -> JS -> (실행)
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fcbd50f4-ba07-40e5-8e4a-7e43a48f2506/Untitled.png)
+        
+    - 자바스크립트와 비교
+        - 타입스크립트는 정적 타입 언어이기 떄문에 컴파일 시간이 조금 걸리지만, 안정성이 보장
+        - 자바스크립트는 동적 타입 언어이기 때문에 런타임 속도는 빠르지만 타입 안정성이 보장되지 않음
+        
+        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ea807273-3d1a-47d0-907b-b14ec104c578/Untitled.png)
+        
+- CoffeeScript
+- Dart
+- 공통단점
+    - 익숙하지 않은 개발자는 배워야함
+    - 최신 자바스크립트에 비해 버전이 느릴 수 밖에 없음
+    - 자료 풀이 작음
+- 참조
+    - [https://hnm1.tistory.com/entry/자바스크립트-언어-안에도-다른-언어가-있다-자바스크립트-파생언어-TypeScript-CoffeeScript-Dart](https://hnm1.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%96%B8%EC%96%B4-%EC%95%88%EC%97%90%EB%8F%84-%EB%8B%A4%EB%A5%B8-%EC%96%B8%EC%96%B4%EA%B0%80-%EC%9E%88%EB%8B%A4-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%ED%8C%8C%EC%83%9D%EC%96%B8%EC%96%B4-TypeScript-CoffeeScript-Dart)
+    - https://medium.com/geekculture/typescript-vs-javascript-e5af7ab5a331
+    - [https://choseongho93.tistory.com/319](https://choseongho93.tistory.com/319)
+
+## 35. JavaScript 코드를 디버깅하기 위해 어떤 도구와 기술을 사용하나요?
+
+- React and Redux
+    - [React Devtools](https://github.com/facebook/react-devtools)
+    - [Redux Devtools](https://github.com/gaearon/redux-devtools)
+- JavaScript
+    - [Chrome Devtools](https://hackernoon.com/twelve-fancy-chrome-devtools-tips-dc1e39d10d9d)
+    - `debugger` statement
+    - `console.log` debugging
+- React Query
+
